@@ -34,16 +34,18 @@ public class Main {
                             try {
                                 InputStream is = http.getInputStream();
                                 Message m = null;
-
-                                do {
-                                    m = Message.readFromStream(is);
-                                    if (m != null) {
-                                        System.out.println(m.toString());
-                                        n++;
-                                    }
-                                } while (m != null);
+                                if (is.available() > 0) {
+                                    do {
+                                        m = Message.readFromStreamXML(is);
+                                        if (m != null) {
+                                            System.out.println(m.toString());
+                                            n++;
+                                        }
+                                    } while (m != null);
+                                }
                             } finally {
                                 http.disconnect();
+
                             }
                             sleep(100);
                         }
@@ -89,10 +91,7 @@ public class Main {
                         text = s.substring(del + 1);
                     }
 
-                    Message m = new Message();
-                    m.text = text;
-                    m.from = login;
-                    m.to = to;
+                    Message m = new Message(login, to, text);
 
                     int res = m.send(urlServer + "/add");
                     if (res != 200) {

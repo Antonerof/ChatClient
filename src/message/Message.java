@@ -45,7 +45,6 @@ public class Message implements Serializable {
         con.setDoOutput(true);
 
         OutputStream os = con.getOutputStream();
-//		this.writeToStream(os);
         this.writeToStreamXML(os);
         os.flush();
         os.close();
@@ -59,7 +58,6 @@ public class Message implements Serializable {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(this, outputStream);
-//            marshaller.marshal(this, System.out);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
